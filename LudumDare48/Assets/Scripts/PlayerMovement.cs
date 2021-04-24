@@ -43,8 +43,16 @@ public class PlayerMovement : MonoBehaviour
         {
             //Tile? 
             drillDir = moveX < 0 ? Vector2.left : Vector2.right;
-            WorldTile tileNextX = WorldGeneration.Instance.GetTile(transform.position.x + drillDir.x, transform.position.y);
-            if (tileNextX == null)
+            
+
+            WorldTile tileNextX = WorldGeneration.Instance.GetTile((int)transform.position.x + drillDir.x, (int)transform.position.y);
+            float dist = drillDir == Vector2.left ? 1f : 0.3f;
+            if (tileNextX != null)
+            {
+                maker.transform.position = tileNextX.transform.position;
+                Debug.Log(Vector2.Distance(transform.position, tileNextX.transform.position));
+            }
+            if (tileNextX == null || Mathf.Abs(Vector2.Distance(transform.position, tileNextX.transform.position)) > dist)
             {
                 //can move
                 canMoveX = true;
@@ -53,10 +61,6 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 //drill!
-                if(Vector2.Distance(transform.position,tileNextX.transform.position) > 0.1f)
-                {
-                    drillDir = Vector2.zero;
-                }
                 //drillDir = moveX < 0 ? Vector2.left : Vector2.right;
             }
         }
@@ -88,8 +92,8 @@ public class PlayerMovement : MonoBehaviour
         //Do drill 
         if (drillDir != Vector2.zero)
         {
-            maker.transform.position = new Vector3(transform.position.x + drillDir.x, transform.position.y + drillDir.y);
-            Debug.Log($"Drill {transform.position.x} {transform.position.y}");
+            
+            //Debug.Log($"Drill {transform.position.x} {transform.position.y}");
             WorldGeneration.Instance.DeleteTile(transform.position.x + drillDir.x, transform.position.y + drillDir.y);
         }
         else
