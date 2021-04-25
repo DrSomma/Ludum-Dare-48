@@ -22,11 +22,13 @@ public class MapGeneratorEditor : Editor
 
         if (GUILayout.Button("Generate"))
         {
+            worldGen.ClearMap();
             worldGen.GenerateMap();
         }
         if (GUILayout.Button("Rnd Seed"))
         {
             worldGen.seed = UnityEngine.Random.Range(0, 1000);
+            worldGen.ClearMap();
             worldGen.GenerateMap();
         }
         if (GUILayout.Button("Clear Map"))
