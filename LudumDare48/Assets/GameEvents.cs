@@ -20,4 +20,13 @@ public class GameEvents : MonoBehaviour
             onTileIsMined(i);
         }
     }
+
+    public event Action onInventoryUpdate;
+    public void InventoryUpdate() //money, item id, or ...
+    {
+        if (onInventoryUpdate != null)
+        {
+            onInventoryUpdate();
+        }
+    }
 }
