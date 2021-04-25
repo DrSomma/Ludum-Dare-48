@@ -38,13 +38,17 @@ public class WorldGeneration : MonoBehaviour
     public int mapSizeX = 20;
     public GameObject chunkPrefab;
     public List<NoiceMap> ores;
-
+    public GameObject player;
 
     public int seed = 20594;
+
+    private int _lastMapY = 0;
+    private Queue<ChunkGenaration> chunkList;
 
     // Start is called before the first frame update
     void Start()
     {
+        ClearMap();
         GenerateMap();
     }
 
@@ -71,14 +75,38 @@ public class WorldGeneration : MonoBehaviour
 
     public void GenerateMap()
     {
-        int lastMapY = 0;
+        _lastMapY = 0;
+        chunkList = new Queue<ChunkGenaration>();
         for (int i = 0; i < 3; i++)
         {
-            GameObject newLayerObject = Instantiate(chunkPrefab);
-            newLayerObject.transform.SetParent(this.gameObject.transform);
-         
-            newLayerObject.GetComponent<ChunkGenaration>().GenerateChunk(lastMapY, seed, ores);
-            lastMapY += newLayerObject.GetComponent<ChunkGenaration>().chunkSizeY;
+            AddChunk();
+        }
+    }
+
+    private void AddChunk()
+    {
+        GameObject newLayerObject = Instantiate(chunkPrefab);
+        newLayerObject.transform.SetParent(this.gameObject.transform);
+
+        var gen = newLayerObject.GetComponent<ChunkGenaration>();
+        gen.GenerateChunk(_lastMapY, seed, ores);
+        _lastMapY += gen.chunkSizeY;
+        chunkList.Enqueue(gen);
+    }
+
+    private void Update()
+    {
+        //check if we can destroy a chunk
+        var first = chunkList.Peek();
+        if (first != null)
+        {
+            if(player.transform.position.y < -(first.OffsetY + first.chunkSizeY*2))
+            {
+                chunkList.Dequeue();
+                Destroy(first.gameObject);
+                AddChunk();
+            }
+
         }
     }
 

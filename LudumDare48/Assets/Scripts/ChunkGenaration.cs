@@ -6,6 +6,7 @@ using UnityEngine;
 public class ChunkGenaration : MonoBehaviour
 {
     public int chunkSizeY = 20;
+    public int OffsetY;
     public GameObject defaultPrefab;
     protected int mapSizeX;
     private WorldTile[,] chunkTiles;
@@ -26,6 +27,7 @@ public class ChunkGenaration : MonoBehaviour
     public virtual void GenerateChunk(int offsetY, int seed, List<NoiceMap> layerNoiceList)
     {
         ClearLayer();
+        this.OffsetY = offsetY;
         mapSizeX = WorldGeneration.Instance.mapSizeX;
         chunkTiles = new WorldTile[mapSizeX, chunkSizeY];
 
