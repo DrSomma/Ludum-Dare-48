@@ -61,33 +61,12 @@ public class WorldGeneration : MonoBehaviour
         }
     }
 
-    private WorldTile[,] _map;
-    public WorldTile GetTile(float xPos, float yPos)
-    {
-        int arrayX = (int)(xPos + (mapSizeX / 2));
-        //Debug.Log($"GetTile: {xPos} {arrayX}");
-        if (arrayX < 0 || arrayX >= mapSizeX)
-            return null;
-        if (yPos < ((mapSizeY-1) * -1f) || yPos > 0)
-            return null;
-        int arrayY = (int)yPos * -1;
-        return _map[arrayX, arrayY];
-    }
-    public void DeleteTile(float xPos, float yPos)
-    {
-        WorldTile tile = GetTile(xPos, yPos);
-        if(tile != null)
-        {
-            Destroy(tile.gameObject);
-        }
-    }
-
     public void GenerateMap()
     {
         ClearMap();
 
         float[,] noiceMap = Noise.GenerateNoiseMap(mapSizeX, mapSizeY, seed, noiseScale, octaves, persistance, lacunarity, offset);
-        _map = new WorldTile[mapSizeX, mapSizeY];
+        //_map = new WorldTile[mapSizeX, mapSizeY];
 
         for (int x = 0; x < mapSizeX; x++)
         {
@@ -98,7 +77,7 @@ public class WorldGeneration : MonoBehaviour
                 GameObject newTile = Instantiate(tile);
                 newTile.transform.position = pos;
                 newTile.transform.SetParent(this.gameObject.transform);
-                _map[x, y] = newTile.GetComponent<WorldTile>();
+                //_map[x, y] = newTile.GetComponent<WorldTile>();
             }
         }
     }
@@ -127,6 +106,28 @@ public class WorldGeneration : MonoBehaviour
             mapSizeY = 1;
         }
     }
+
+
+    //private WorldTile[,] _map;
+    //public WorldTile GetTile(float xPos, float yPos)
+    //{
+    //    int arrayX = (int)(xPos + (mapSizeX / 2));
+    //    //Debug.Log($"GetTile: {xPos} {arrayX}");
+    //    if (arrayX < 0 || arrayX >= mapSizeX)
+    //        return null;
+    //    if (yPos < ((mapSizeY-1) * -1f) || yPos > 0)
+    //        return null;
+    //    int arrayY = (int)yPos * -1;
+    //    return _map[arrayX, arrayY];
+    //}
+    //public void DeleteTile(float xPos, float yPos)
+    //{
+    //    WorldTile tile = GetTile(xPos, yPos);
+    //    if(tile != null)
+    //    {
+    //        Destroy(tile.gameObject);
+    //    }
+    //}
 
     [Serializable]
     public struct WorldTiles
