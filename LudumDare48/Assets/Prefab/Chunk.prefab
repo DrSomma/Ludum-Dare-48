@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkSizeY: 20
+  defaultPrefab: {fileID: 6091790911289569454, guid: 2ff9e340b5922c34d928162e5a84a1be, type: 3}

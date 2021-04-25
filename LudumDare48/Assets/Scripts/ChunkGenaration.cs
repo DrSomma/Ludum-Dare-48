@@ -6,6 +6,7 @@ using UnityEngine;
 public class ChunkGenaration : MonoBehaviour
 {
     public int chunkSizeY = 20;
+    public GameObject defaultPrefab;
     protected int mapSizeX;
     private WorldTile[,] chunkTiles;
 
@@ -30,15 +31,20 @@ public class ChunkGenaration : MonoBehaviour
 
         GameObject[,] chunkPrefabTiles = new GameObject[mapSizeX, chunkSizeY];
 
+        int lastSeed = seed;
+
         foreach (NoiceMap n in layerNoiceList)
         {
-            float[,] noiceMap = Noise.GenerateNoiseMap(mapSizeX, chunkSizeY, seed, n.noiseScale, n.octaves, n.persistance, n.lacunarity, n.offset + (Vector2.down * offsetY));
+            System.Random prng = new System.Random(lastSeed);
+            lastSeed = prng.Next();
+            float[,] noiceMap = Noise.GenerateNoiseMap(mapSizeX, chunkSizeY, lastSeed, n.noiseScale, n.octaves, n.persistance, n.lacunarity, n.offset + (Vector2.down * offsetY));
 
             for (int x = 0; x < mapSizeX; x++)
             {
                 for (int y = 0; y < chunkSizeY; y++)
                 {
-                    GameObject o = n.GetTilePrefab(noiceMap[x, y], (y + offsetY));
+                    float amplitudeScale = Mathf.InverseLerp(0, 40 / 2, y+offsetY);
+                    GameObject o = n.GetTilePrefab(Mathf.Clamp01(noiceMap[x, y] * amplitudeScale), (y + offsetY));
                     if(o != null)
                     {
                         chunkPrefabTiles[x, y] = o;
@@ -54,13 +60,16 @@ public class ChunkGenaration : MonoBehaviour
             {
                 Vector2 pos = new Vector2(x - (mapSizeX / 2), -(y + offsetY));
                 GameObject prefab = chunkPrefabTiles[x,y];
-                if(prefab != null)
+                if(prefab == null)
                 {
-                    GameObject newTile = Instantiate(prefab);
-                    newTile.transform.position = pos;
-                    newTile.transform.SetParent(this.gameObject.transform);
-                    chunkTiles[x, y] = newTile.GetComponent<WorldTile>();
+                    //spawn default
+                    prefab = defaultPrefab;
+
                 }
+                GameObject newTile = Instantiate(prefab);
+                newTile.transform.position = pos;
+                newTile.transform.SetParent(this.gameObject.transform);
+                chunkTiles[x, y] = newTile.GetComponent<WorldTile>();
             }
         }
     }
@@ -78,16 +87,33 @@ public class ChunkGenaration : MonoBehaviour
 
         public GameObject GetTilePrefab(float noiceHeight, int depth)
         {
-            GameObject tileObject = null;
+            GameObject tileObj = null;
             for (int i = 0; i < tiles.Length; i++)
             {
-                if (noiceHeight >= tiles[i].noiceHeight && depth >= tiles[i].minDepth)
+                float scale = 0;
+                if (depth >= tiles[i].minDepth && depth <= tiles[i].bestDepthS)   //between min <-> best
                 {
-                    tileObject = tiles[i].tileObject;
+                    scale = Mathf.InverseLerp(tiles[i].minDepth, tiles[i].bestDepthS, depth); 
+                }else if (depth >= tiles[i].bestDepthE && depth <= tiles[i].maxDepth) //between best <-> max
+                {
+                    scale = Mathf.InverseLerp(tiles[i].maxDepth, tiles[i].bestDepthE, depth);
+                }
+                else if (depth >= tiles[i].bestDepthS && depth <= tiles[i].bestDepthE) //between best <-> best
+                {
+                    scale = 1;
+                }
+                else
+                {
+                    scale = 0;                                                       // not between min <-> best <-> max dont spawn
+                }
+                float tileMaxHeight = tiles[i].noiceHeight * scale;
+                //Debug.Log($"scale: {scale} + depth: {depth} noiceHeight:{noiceHeight} tileMaxHeight:{tileMaxHeight}");
+                if (tileMaxHeight != 0 && noiceHeight <= tileMaxHeight)
+                {
+                    tileObj = tiles[i].tileObject;
                 }
             }
-            Debug.LogError("NO TILE FOUND! " + noiceHeight);
-            return tileObject;
+            return tileObj;
         }
     }
 
@@ -96,6 +122,9 @@ public class ChunkGenaration : MonoBehaviour
     {
         public string name;
         public int minDepth;
+        public int bestDepthS;
+        public int bestDepthE;
+        public int maxDepth;
         public float noiceHeight;
         public GameObject tileObject;
     }

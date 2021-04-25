@@ -76,7 +76,8 @@ public class WorldGeneration : MonoBehaviour
         {
             GameObject newLayerObject = Instantiate(chunkPrefab);
             newLayerObject.transform.SetParent(this.gameObject.transform);
-            newLayerObject.GetComponent<ChunkGenaration>().GenerateChunk(lastMapY,seed, ores);
+         
+            newLayerObject.GetComponent<ChunkGenaration>().GenerateChunk(lastMapY, seed, ores);
             lastMapY += newLayerObject.GetComponent<ChunkGenaration>().chunkSizeY;
         }
     }
