@@ -16,6 +16,7 @@ public class MapGeneratorEditor : Editor
         autoUpdate = EditorGUILayout.Toggle("Auto Update", autoUpdate);
         if (autoUpdate && hasUpdate)
         {
+            worldGen.ClearMap();
             worldGen.GenerateMap();
         }
 
