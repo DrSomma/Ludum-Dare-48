@@ -5,22 +5,55 @@ using UnityEngine;
 public class WorldTile : MonoBehaviour
 {
     public float Hardness = 1;
+    public float Cooldown = 2f;
+    public float ResetTime = 4f;
     private float curHardness;
+
+    private float _nextDigPossibleTimeStamp;
+    private float _resetTimeStamp;
 
 
     // Start is called before the first frame update
     void Start()
     {
         curHardness = Hardness;
+        _nextDigPossibleTimeStamp = float.MinValue;
     }
 
-    public void OnDig(float damage)
+    public void OnDig(float digDamage, float digSpeed)
     {
-        curHardness -= damage;
-        if(curHardness <= 0)
+        float curTime = Time.time;
+        if(curTime >= _nextDigPossibleTimeStamp)
         {
-            Destroy(this.gameObject);
-            Debug.Log("On Destroy");
+            //TODO: Coole Effekte!
+
+            //can dig
+            curHardness -= digDamage;
+            if(curHardness <= 0)
+            {
+                DestroyTile();
+            }
+            _nextDigPossibleTimeStamp = curTime + (Cooldown - digSpeed);
+            _resetTimeStamp = curTime + ResetTime;
         }
+        else
+        {
+            //On Cooldown
+        }
+    }
+
+    private void Update()
+    {
+        if(Time.deltaTime >= _resetTimeStamp)
+        {
+            curHardness = Hardness;
+        }
+    }
+
+    public void DestroyTile()
+    {
+        //Gib Items!
+        //TODO: Coole Effekte!
+        Destroy(this.gameObject);
     }
 }

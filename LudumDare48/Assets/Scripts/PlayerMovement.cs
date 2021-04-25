@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     public float speedX = 2f;
     public float speedY = 5f;
 
+    public float DigDamage = 0.5f;
+    public float DigSpeed = 1f;
+
     public float speedDrill = 2;
 
     private Rigidbody2D _rigidbody2D;
@@ -54,7 +57,8 @@ public class PlayerMovement : MonoBehaviour
                 if(distance <= 0.2f)
                 {
                     //Drill no move!
-                    Destroy(hit.collider.gameObject);
+                    WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
+                    tile.OnDig(DigDamage,DigSpeed);
                 }
                 else
                 {
