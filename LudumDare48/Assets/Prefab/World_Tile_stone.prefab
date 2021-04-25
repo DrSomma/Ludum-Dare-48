@@ -7,9 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6773021025554903926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.3773585
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773021025554903926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
+      propertyPath: m_Color.g
+      value: 0.3773585
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773021025554903926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
+      propertyPath: m_Color.r
+      value: 0.3773585
+      objectReference: {fileID: 0}
     - target: {fileID: 7273915712241609926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
       propertyPath: m_Name
-      value: World_Tile_granite
+      value: World_Tile_stone
       objectReference: {fileID: 0}
     - target: {fileID: 7273915712241609944, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
       propertyPath: m_RootOrder

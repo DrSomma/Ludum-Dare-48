@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1578434274331589414, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
       propertyPath: m_Name
-      value: World_Tile_iron
+      value: World_Tile_iron Variant
       objectReference: {fileID: 0}
     - target: {fileID: 1578434274331589432, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
       propertyPath: m_RootOrder
@@ -66,6 +66,18 @@ PrefabInstance:
     - target: {fileID: 1578434274331589433, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
       propertyPath: m_Color.r
       value: 0.6698113
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236681779279389846, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236681779279389846, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
+      propertyPath: m_Color.g
+      value: 0.058636453
+      objectReference: {fileID: 0}
+    - target: {fileID: 3236681779279389846, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6226415
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}

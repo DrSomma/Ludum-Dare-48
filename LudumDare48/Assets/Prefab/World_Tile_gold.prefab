@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2025503900653891987, guid: 363e0cf865596fd49a4c06940143b941, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2025503900653891987, guid: 363e0cf865596fd49a4c06940143b941, type: 3}
+      propertyPath: m_Color.g
+      value: 0.8706498
+      objectReference: {fileID: 0}
+    - target: {fileID: 2025503900653891987, guid: 363e0cf865596fd49a4c06940143b941, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2670828510219349539, guid: 363e0cf865596fd49a4c06940143b941, type: 3}
       propertyPath: m_Name
       value: World_Tile_gold
