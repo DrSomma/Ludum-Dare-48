@@ -75,13 +75,14 @@ public class WorldGeneration : MonoBehaviour
 
     public void GenerateMap()
     {
+        int lastMapY = 0;
         for (int i = 0; i < AllLayer.Length; i++)
         {
             Layer layer = AllLayer[i];
             GameObject newLayerObject = Instantiate(layer.layerGen.gameObject);
             newLayerObject.transform.SetParent(this.gameObject.transform);
-            newLayerObject.GetComponent<LayerGenaration>().GenerateLayer(seed + i);
-            //layer.layerGen.GenerateLayer(seed + i);
+            newLayerObject.GetComponent<LayerGenaration>().GenerateLayer(lastMapY,seed + i);
+            lastMapY += newLayerObject.GetComponent<LayerGenaration>().mapSizeY;
         }
     }
 

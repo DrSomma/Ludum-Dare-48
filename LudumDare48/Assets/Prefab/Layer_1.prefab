@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7517732502507619332
+--- !u!1 &4370377713210085260
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7517732502507619330}
-  - component: {fileID: 6013862484679904581}
+  - component: {fileID: 4370377713210085258}
+  - component: {fileID: -1470719509065157488}
   m_Layer: 0
-  m_Name: Layer_0
+  m_Name: Layer_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7517732502507619330
+--- !u!4 &4370377713210085258
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7517732502507619332}
+  m_GameObject: {fileID: 4370377713210085260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,22 +31,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6013862484679904581
+--- !u!114 &-1470719509065157488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7517732502507619332}
+  m_GameObject: {fileID: 4370377713210085260}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dac10185b67b4b4ebfa0cc379229287, type: 3}
+  m_Script: {fileID: 11500000, guid: cab1594ee8b48d44ea8a5199d93f592c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSizeY: 10
+  mapSizeY: 20
   octaves: 4
   persistance: 0.5
-  lacunarity: 1.5
+  lacunarity: 2.1
   offset: {x: 0, y: 0}
   tiles:
   - name: dirt
@@ -58,5 +58,9 @@ MonoBehaviour:
   - name: stone
     height: 1
     tileObject: {fileID: 1578434274331589414, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
+  specialTiles:
+  - name: Fossile
+    spawnChance: 0.1
+    maxSpawn: 3
+    tileObject: {fileID: 7469567591124712901, guid: 4eaba2b2f09e74a45a9f8667215f79b4, type: 3}
   noiseScale: 3
-  Weed: {fileID: 4095573551012632388, guid: a0f05fcf7467d6c499b34aa100cdef7c, type: 3}

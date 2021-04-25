@@ -320,10 +320,16 @@ MonoBehaviour:
   mapSizeX: 21
   mapSizeY: 20
   AllLayer:
-  - name: 
+  - name: Start
     depth: 0
     layerGen: {fileID: 6013862484679904581, guid: 63765dd7eb831564eb79fe7b91d778a0, type: 3}
-  seed: 790
+  - name: 1
+    depth: 0
+    layerGen: {fileID: -1470719509065157488, guid: 4a8413c504ed67f4f82894e141a592eb, type: 3}
+  - name: 2
+    depth: 0
+    layerGen: {fileID: -1470719509065157488, guid: 4a8413c504ed67f4f82894e141a592eb, type: 3}
+  seed: 728
 --- !u!4 &1632233244
 Transform:
   m_ObjectHideFlags: 0

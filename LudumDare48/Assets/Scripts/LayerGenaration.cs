@@ -14,8 +14,10 @@ public class LayerGenaration : MonoBehaviour
     public float lacunarity = 2.1f;
     public Vector2 offset;
     public WorldTiles[] tiles;
+    public SpecialTiles[] specialTiles;
     public float noiseScale = 3f;
     public WorldTile[,] layerMap;
+
 
     public void ClearLayer()
     {
@@ -30,7 +32,7 @@ public class LayerGenaration : MonoBehaviour
         }
     }
 
-    public virtual void GenerateLayer(int seed = -1)
+    public virtual void GenerateLayer(int startY, int seed = -1)
     {
         ClearLayer();
         mapSizeX = WorldGeneration.Instance.mapSizeX;
@@ -44,11 +46,20 @@ public class LayerGenaration : MonoBehaviour
             for (int y = 0; y < mapSizeY; y++)
             {
                 GameObject tile = GetTile(noiceMap[x, y]);
-                Vector2 pos = new Vector2(x - (mapSizeX / 2), -y);
+                Vector2 pos = new Vector2(x - (mapSizeX / 2), -(y + startY));
                 GameObject newTile = Instantiate(tile);
                 newTile.transform.position = pos;
                 newTile.transform.SetParent(this.gameObject.transform);
                 layerMap[x, y] = newTile.GetComponent<WorldTile>();
+            }
+        }
+
+        for (int i = 0; i < specialTiles.Length; i++)
+        {
+            int p = (int)UnityEngine.Random.Range(0, specialTiles[i].maxSpawn);
+            for (int sp = 0; sp < p; sp++)
+            {
+                ReplaceRandomTile(specialTiles[i].tileObject.gameObject);
             }
         }
     }
@@ -73,11 +84,36 @@ public class LayerGenaration : MonoBehaviour
         return layerMap[x, y];
     }
 
+    protected void ReplaceRandomTile(GameObject replace)
+    {
+        GetRandomTile(out int x, out int y);
+        ReplaceTile(replace, x, y);
+    }
+
+    protected void ReplaceTile(GameObject replace, int x, int y)
+    {
+        GameObject replaceTile = layerMap[x, y].gameObject;
+        GameObject replaceBy = Instantiate(replace);
+        replaceBy.transform.SetParent(this.transform);
+        replaceBy.transform.position = replaceTile.transform.position;
+        DestroyImmediate(replaceTile);
+        layerMap[x, y] = replaceBy.GetComponent<WorldTile>();
+    }
+
     [Serializable]
     public struct WorldTiles
     {
         public string name;
         public float height;
+        public GameObject tileObject;
+    }
+
+    [Serializable]
+    public struct SpecialTiles
+    {
+        public string name;
+        public float spawnChance;
+        public int maxSpawn;
         public GameObject tileObject;
     }
 }
