@@ -55,9 +55,14 @@ public class WorldGeneration : MonoBehaviour
 
     public void ClearMap()
     {
+        GameObject[] toDestroy = new GameObject[transform.childCount];
         for (int i = 0; i < transform.childCount; i++)
         {
-            DestroyImmediate(transform.GetChild(i).gameObject);
+            toDestroy[i] = transform.GetChild(i).gameObject;
+        }
+        foreach (GameObject gameObject in toDestroy)
+        {
+            DestroyImmediate(gameObject);
         }
     }
 
