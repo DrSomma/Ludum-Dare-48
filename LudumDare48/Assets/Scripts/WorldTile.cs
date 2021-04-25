@@ -29,6 +29,10 @@ public class WorldTile : MonoBehaviour
 
     private float _nextDigPossibleTimeStamp;
     private float _resetTimeStamp;
+    private Color _imgColor;
+    private Sprite _imgSprite; 
+
+    private static WorldTile _curDiggingTile;
 
     // Start is called before the first frame update
     void Start()
@@ -36,22 +40,28 @@ public class WorldTile : MonoBehaviour
         curHardness = Hardness;
         _nextDigPossibleTimeStamp = float.MinValue;
 
+        var render = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        _imgColor = render.color;
+        _imgSprite = render.sprite;
+
         //Tween
         _wait = new WaitForSeconds(waitTime);
-        Transform _img = transform.GetChild(0);
+        Transform _imgTrans = transform.GetChild(0);
         _effect = new EffectBuilder(this)
-            //.AddEffect(new ScaleEffect(_img, maxScaleSize, scaleSpeed, _wait))
-            .AddEffect(new ShakeEffect(_img, maxRotation, rotSpeed));
+            //.AddEffect(new ScaleEffect(_imgTrans, maxScaleSize, scaleSpeed, _wait))
+            .AddEffect(new ShakeEffect(_imgTrans, maxRotation, rotSpeed));
     }
 
     public void DigMe(float digDamage, float digSpeed)
     {
         float curTime = Time.time;
+        if(_curDiggingTile == null || _curDiggingTile != this)
+        {
+            StartDigging();
+        }
+
         if (curTime >= _nextDigPossibleTimeStamp)
         {
-            //effect
-            _effect.ExecuteEffects();
-
             //can dig
             curHardness -= digDamage;
             if (curHardness <= 0)
@@ -67,6 +77,42 @@ public class WorldTile : MonoBehaviour
         }
     }
 
+    private void StartDigging()
+    {
+        //reset last
+        if(_curDiggingTile != null)
+        {
+            _curDiggingTile.StopDigging();
+        }
+
+        _curDiggingTile = this;
+
+        //effect
+        _effect.ExecuteEffects();
+
+        //Particle
+        ParticleManager.Instance.SpawnDiggingParticels(transform.position, _imgColor, _imgSprite);
+
+    }
+
+    public static void OnStopDigging()
+    {
+        if (_curDiggingTile != null)
+        {
+            _curDiggingTile.StopDigging();
+        }
+    }
+
+    private void StopDigging()
+    {
+        _curDiggingTile = null;
+        curHardness = Hardness;
+        _effect.StopAllEffects();
+        ParticleManager.Instance.StopDiggingParticels();
+
+       
+    }
+
     private void Update()
     {
         if (Time.deltaTime >= _resetTimeStamp)
@@ -79,6 +125,8 @@ public class WorldTile : MonoBehaviour
     {
         //get items
         GameEvents.Instance.TileIsMined(Treasure);
+
+        ParticleManager.Instance.StopDiggingParticels();
 
         //TODO: Coole Effekte!
         Destroy(this.gameObject);

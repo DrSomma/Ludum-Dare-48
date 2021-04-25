@@ -62,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(distance);
+                    //Debug.Log(distance);
+                    WorldTile.OnStopDigging();
                 }
             }
             else
@@ -77,8 +78,13 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     transform.position = newPos;
+                    WorldTile.OnStopDigging();
                 }
             }
+        }
+        else
+        {
+            WorldTile.OnStopDigging();
         }
     }
 

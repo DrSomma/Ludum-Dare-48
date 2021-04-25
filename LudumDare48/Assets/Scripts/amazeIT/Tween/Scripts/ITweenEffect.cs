@@ -8,5 +8,6 @@ namespace Tween_Library.Scripts
         event Action<ITweenEffect> OnComplete;
 
         IEnumerator Execute();
+        void ExecuteReset();
     }
 }

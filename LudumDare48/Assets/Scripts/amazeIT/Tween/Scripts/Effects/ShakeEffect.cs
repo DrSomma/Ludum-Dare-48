@@ -54,5 +54,14 @@ namespace Tween_Library.Scripts.Effects
 
             OnComplete?.Invoke(this);
         }
+
+        public void ExecuteReset()
+        {
+            Quaternion rotateTo = new Quaternion
+            {
+                eulerAngles = new Vector3(0, 0, 0)
+            };
+            _transform.rotation = rotateTo;
+        }
     }
 }

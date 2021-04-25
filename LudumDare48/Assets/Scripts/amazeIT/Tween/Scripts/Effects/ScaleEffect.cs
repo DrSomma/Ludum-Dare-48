@@ -45,5 +45,10 @@ namespace Tween_Library.Scripts.Effects
             }
 
         }
+
+        public void ExecuteReset()
+        {
+            _transform.localScale = Vector3.one;
+        }
     }
 }

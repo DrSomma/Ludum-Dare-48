@@ -47,5 +47,16 @@ namespace Tween_Library.Scripts
             _completedEffects = 0;
             OnAllEffectsComplete?.Invoke();
         }
+
+        public void StopAllEffects()
+        {
+            Owner?.StopAllCoroutines();
+            foreach (ITweenEffect effect in _effects)
+            {
+                effect.ExecuteReset();
+            }
+            AllEffectsComplete();
+            //RESET?
+        }
     }
 }
