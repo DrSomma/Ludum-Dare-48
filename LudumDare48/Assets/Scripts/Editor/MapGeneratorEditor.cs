@@ -29,6 +29,10 @@ public class MapGeneratorEditor : Editor
             worldGen.seed = UnityEngine.Random.Range(0, 1000);
             worldGen.GenerateMap();
         }
+        if (GUILayout.Button("Clear Map"))
+        {
+            worldGen.ClearMap();
+        }
 
     }
 }
