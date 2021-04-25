@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +6,13 @@ using UnityEngine;
 public class WorldTile : MonoBehaviour
 {
     public float Hardness = 1;
+    public int Treasure = 1;      //money, item id or ...
+
+    #region static/config
     public float Cooldown = 2f;
     public float ResetTime = 4f;
     private float curHardness;
+    #endregion
 
     private float _nextDigPossibleTimeStamp;
     private float _resetTimeStamp;
@@ -20,16 +25,16 @@ public class WorldTile : MonoBehaviour
         _nextDigPossibleTimeStamp = float.MinValue;
     }
 
-    public void OnDig(float digDamage, float digSpeed)
+    public void DigMe(float digDamage, float digSpeed)
     {
         float curTime = Time.time;
-        if(curTime >= _nextDigPossibleTimeStamp)
+        if (curTime >= _nextDigPossibleTimeStamp)
         {
             //TODO: Coole Effekte!
 
             //can dig
             curHardness -= digDamage;
-            if(curHardness <= 0)
+            if (curHardness <= 0)
             {
                 DestroyTile();
             }
@@ -44,7 +49,7 @@ public class WorldTile : MonoBehaviour
 
     private void Update()
     {
-        if(Time.deltaTime >= _resetTimeStamp)
+        if (Time.deltaTime >= _resetTimeStamp)
         {
             curHardness = Hardness;
         }
@@ -52,7 +57,9 @@ public class WorldTile : MonoBehaviour
 
     public void DestroyTile()
     {
-        //Gib Items!
+        //get items
+        GameEvents.Instance.TileIsMined(Treasure);
+
         //TODO: Coole Effekte!
         Destroy(this.gameObject);
     }

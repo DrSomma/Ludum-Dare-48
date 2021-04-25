@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //Drill no move!
                     WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
-                    tile.OnDig(DigDamage,DigSpeed);
+                    tile.DigMe(DigDamage,DigSpeed);
                 }
                 else
                 {
