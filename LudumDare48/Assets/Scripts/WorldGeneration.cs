@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ChunkGenaration;
 using Random = UnityEngine.Random;
 
 public class WorldGeneration : MonoBehaviour
@@ -35,9 +36,8 @@ public class WorldGeneration : MonoBehaviour
     public int mapMinX => -mapSizeX / 2;
 
     public int mapSizeX = 20;
-    public int mapSizeY = 40;
-
-    public Layer[] AllLayer;
+    public GameObject chunkPrefab;
+    public List<NoiceMap> ores;
 
 
     public int seed = 20594;
@@ -53,10 +53,6 @@ public class WorldGeneration : MonoBehaviour
         if (mapSizeX < 1)
         {
             mapSizeX = 1;
-        }
-        if (mapSizeY < 1)
-        {
-            mapSizeY = 1;
         }
     }
 
@@ -76,22 +72,13 @@ public class WorldGeneration : MonoBehaviour
     public void GenerateMap()
     {
         int lastMapY = 0;
-        for (int i = 0; i < AllLayer.Length; i++)
+        for (int i = 0; i < 3; i++)
         {
-            Layer layer = AllLayer[i];
-            GameObject newLayerObject = Instantiate(layer.layerGen.gameObject);
+            GameObject newLayerObject = Instantiate(chunkPrefab);
             newLayerObject.transform.SetParent(this.gameObject.transform);
-            newLayerObject.GetComponent<LayerGenaration>().GenerateLayer(lastMapY,seed + i);
-            lastMapY += newLayerObject.GetComponent<LayerGenaration>().mapSizeY;
+            newLayerObject.GetComponent<ChunkGenaration>().GenerateChunk(lastMapY,seed, ores);
+            lastMapY += newLayerObject.GetComponent<ChunkGenaration>().chunkSizeY;
         }
-    }
-
-    [Serializable]
-    public struct Layer
-    {
-        public string name;
-        public float depth;
-        public LayerGenaration layerGen;
     }
 
 
