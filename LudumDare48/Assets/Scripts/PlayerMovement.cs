@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move() {
 
-        Vector3 movement = Vector3.right * Input.GetAxis("Horizontal") * speedX * Time.deltaTime;
+        Vector3 newPos = transform.position + (Vector3.right * Input.GetAxis("Horizontal") * speedX * Time.deltaTime);
         _drillDir = Vector2.zero;
 
         if(Input.GetAxis("Horizontal") > 0)
@@ -42,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetAxis("Vertical") < 0)
         {
             _drillDir = Vector3.down;
-            //movement = Vector3.up * Input.GetAxis("Vertical") * speedX * Time.deltaTime;
         }
 
         if(_drillDir != Vector3.zero)
@@ -51,13 +50,10 @@ public class PlayerMovement : MonoBehaviour
 
             if (hit.collider != null && hit.transform.tag != "Player")
             {
-                // Calculate the distance from the surface and the "error" relative
-                // to the floating height.
                 float distance = Mathf.Abs(hit.point.y - transform.position.y);
                 if(distance <= 0.2f)
                 {
                     //Drill no move!
-                    movement = Vector3.zero;
                     Destroy(hit.collider.gameObject);
                 }
                 else
@@ -67,11 +63,17 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                if(hit.collider != null && hit.transform.tag == "Player")
+                if(newPos.x < WorldGeneration.Instance.mapMinX)
                 {
-                    Debug.Log("dada");
+                    transform.position = new Vector3(WorldGeneration.Instance.mapMinX, transform.position.y);
+                }else if(newPos.x > WorldGeneration.Instance.mapMaxX)
+                {
+                    transform.position = new Vector3(WorldGeneration.Instance.mapMaxX, transform.position.y);
                 }
-                transform.position += movement;
+                else
+                {
+                    transform.position = newPos;
+                }
             }
         }
     }
