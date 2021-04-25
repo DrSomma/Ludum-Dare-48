@@ -9,13 +9,16 @@ public class PlayerMovement : MonoBehaviour
 
     public float speedDrill = 2;
 
+    private Rigidbody2D _rigidbody2D;
     private Vector3 _movementForce;
+    private Vector3 _drillDir;
 
     public GameObject maker;
 
 
     void Awake()
     {
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     void Update()
@@ -23,83 +26,59 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
-    private bool IsGrounded(out WorldTile tile)
-    {
-        tile = WorldGeneration.Instance.GetTile(transform.position.x, transform.position.y-1f);
-        return tile != null; 
-    }
-
     private void Move() {
-        float moveX = Input.GetAxis("Horizontal") * speedX * Time.deltaTime;
-        float moveY = 0;
-        //Debug.Log("moveX: " + moveX);
 
-        bool canMoveX = false;
-        bool canMoveY = false;
+        Vector3 movement = Vector3.right * Input.GetAxis("Horizontal") * speedX * Time.deltaTime;
+        _drillDir = Vector2.zero;
 
-        Vector2 drillDir = Vector2.zero;
-
-        if (moveX != 0 && (transform.position.x + moveX) >= WorldGeneration.Instance.mapMinX && (transform.position.x + moveX) <= WorldGeneration.Instance.mapMaxX)
+        if(Input.GetAxis("Horizontal") > 0)
         {
-            //Tile? 
-            drillDir = moveX < 0 ? Vector2.left : Vector2.right;
-            
+            _drillDir = Vector3.right;
+        }
+        else if(Input.GetAxis("Horizontal") < 0)
+        {
+            _drillDir = Vector3.left;
+        }
+        else if (Input.GetAxis("Vertical") < 0)
+        {
+            _drillDir = Vector3.down;
+            //movement = Vector3.up * Input.GetAxis("Vertical") * speedX * Time.deltaTime;
+        }
 
-            WorldTile tileNextX = WorldGeneration.Instance.GetTile((int)transform.position.x + drillDir.x, (int)transform.position.y);
-            float dist = drillDir == Vector2.left ? 1f : 0.3f;
-            if (tileNextX != null)
+        if(_drillDir != Vector3.zero)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, _drillDir, 0.3f);
+
+            if (hit.collider != null && hit.transform.tag != "Player")
             {
-                maker.transform.position = tileNextX.transform.position;
-                Debug.Log(Vector2.Distance(transform.position, tileNextX.transform.position));
-            }
-            if (tileNextX == null || Mathf.Abs(Vector2.Distance(transform.position, tileNextX.transform.position)) > dist)
-            {
-                //can move
-                canMoveX = true;
-                drillDir = Vector2.zero;
+                // Calculate the distance from the surface and the "error" relative
+                // to the floating height.
+                float distance = Mathf.Abs(hit.point.y - transform.position.y);
+                if(distance <= 0.2f)
+                {
+                    //Drill no move!
+                    movement = Vector3.zero;
+                    Destroy(hit.collider.gameObject);
+                }
+                else
+                {
+                    Debug.Log(distance);
+                }
             }
             else
             {
-                //drill!
-                //drillDir = moveX < 0 ? Vector2.left : Vector2.right;
+                if(hit.collider != null && hit.transform.tag == "Player")
+                {
+                    Debug.Log("dada");
+                }
+                transform.position += movement;
             }
         }
-        else
-        {
+    }
 
-        }
-
-
-        if (!IsGrounded(out WorldTile tile))
-        {
-            //fall down
-            moveY = -1 * speedY * Time.deltaTime;
-            drillDir = Vector2.zero;
-        }
-        else
-        {
-            if (Input.GetAxis("Vertical") < 0)
-            {
-                drillDir = Vector2.down;
-            }
-        }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            drillDir = Vector2.left;
-        }
-
-        //Do drill 
-        if (drillDir != Vector2.zero)
-        {
-            
-            //Debug.Log($"Drill {transform.position.x} {transform.position.y}");
-            WorldGeneration.Instance.DeleteTile(transform.position.x + drillDir.x, transform.position.y + drillDir.y);
-        }
-        else
-        {
-            transform.position += new Vector3(moveX,moveY);
-        }
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Debug.DrawLine(transform.position, transform.position + _drillDir * 0.3f);
     }
 }
