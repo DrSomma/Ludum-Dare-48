@@ -6,6 +6,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private GameObject UpgradeMenu;
     [SerializeField] private GameObject EscapeMenu;
+    [SerializeField] private GameObject Controls;
 
     // Update is called once per frame
     void Update()
@@ -30,6 +31,7 @@ public class InputManager : MonoBehaviour
             }
             else
             {
+                Controls.SetActive(false);
                 EscapeMenu.SetActive(!EscapeMenu.activeSelf);
             }
         }
