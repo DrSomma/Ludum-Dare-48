@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         Move();
     }
 
+    private Vector3 lastDir;
     private void Move() {
 
         Vector3 newPos = transform.position + (Vector3.right * Input.GetAxis("Horizontal") * speedX * Time.deltaTime);
@@ -87,11 +88,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.identity;
-            //_spriteRenderer.flipX = false;
+            //transform.rotation = Quaternion.identity;
+            if(lastDir == Vector3.down)
+            {
+                transform.rotation = Quaternion.identity;
+            }
             WorldTile.OnStopDigging();
         }
+
+        lastDir = _drillDir;
     }
+
 
     private void OnDrawGizmos()
     {
