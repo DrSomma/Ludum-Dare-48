@@ -8,12 +8,13 @@ namespace Manager
 
         [Header("Upgrades")]
         public int TankUpgrade;
-        public float TankPerLevel = 20f; 
         public int SpeedUpgrade;
-        public float SpeedPerLevel = 2f;
-        public float DrillSpeedPerLevl = 0.5f;
-        public float StartSpeed = 1.5f;
         public int SightUpgrade;
+
+        [Header("Settings")]
+        public float TankPerLevel = 20f; 
+        public float SpeedPerLevel = 2f;
+        public float StartSpeed = 1.5f;
         [Range(0, 1)]
         public float StartSight = 1;
         public float SightPerLevel = 0.3f;
@@ -22,9 +23,9 @@ namespace Manager
         [SerializeField] public GameObject[] SpeedUpgradeBlocker;
         [SerializeField] public GameObject[] SightUpgradeBlocker;
 
-        public float Sight => StartSight - (SightPerLevel * (SightUpgrade-1));
+        public float Sight => StartSight - (SightPerLevel * (SightUpgrade));
         public float DrillSpeedMultiplier => StartSpeed + (SpeedPerLevel*SpeedUpgrade);
-        public float MaxTank => TankPerLevel + (TankPerLevel * TankUpgrade);
+        public float MaxFuel => TankPerLevel + (TankPerLevel * TankUpgrade);
 
         private void Awake()
         {

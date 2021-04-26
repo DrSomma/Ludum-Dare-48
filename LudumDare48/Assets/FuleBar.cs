@@ -23,7 +23,7 @@ public class FuleBar : MonoBehaviour
         }
 
         _bars = new List<Image>();
-        for (int i = 0; i < UpgradeManager.Instance.TankUpgrade; i++)
+        for (int i = 0; i < UpgradeManager.Instance.TankUpgrade+1; i++)
         {
             AddBar();
         }

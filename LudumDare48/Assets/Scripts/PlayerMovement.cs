@@ -13,29 +13,13 @@ public class PlayerMovement : MonoBehaviour
     public float speedX = 2f;
     public float speedY = 5f;
 
-    public float StartDigDamage = 0.5f;
-    public float StartDigSpeed = 1f;
-    public float DigCooldown = 2f;
-    private float _nextDigPossibleTimeStamp;
-
     private Vector3 _drillDir;
-    private float curDigSpeed;
-    private float curDigDmg;
 
     public GameObject maker;
 
     private void Start()
     {
-        _nextDigPossibleTimeStamp = float.MinValue;
-        Fuel = UpgradeManager.Instance.TankUpgrade * UpgradeManager.Instance.TankPerLevel;
-        curDigSpeed = StartDigSpeed;
-        OnUpgrade();
-    }
-
-    void OnUpgrade()
-    {
-        //curDigSpeed = Mathf.Max(0.01f, StartDigSpeed - UpgradeManager.Instance.ExtraSpeed);
-        curDigDmg = Mathf.Max(0.01f, StartDigDamage + UpgradeManager.Instance.ExtraSpeed);
+        Fuel = UpgradeManager.Instance.MaxFuel;
     }
 
     void Update()
@@ -148,8 +132,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("GAME OVERRRRR!!!!");
         }
     }
-
-
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
