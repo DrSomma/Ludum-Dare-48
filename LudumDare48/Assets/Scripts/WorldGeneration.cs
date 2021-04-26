@@ -39,6 +39,7 @@ public class WorldGeneration : MonoBehaviour
     public GameObject chunkPrefab;
     public List<NoiceMap> ores;
     public GameObject player;
+    public GameObject WeedPrefab;
 
     public int seed = 20594;
 
@@ -77,6 +78,18 @@ public class WorldGeneration : MonoBehaviour
     {
         _lastMapY = 0;
         chunkList = new Queue<ChunkGenaration>();
+
+        GameObject grassline = new GameObject("weed");
+        grassline.transform.SetParent(this.transform);
+
+        for (int x = 0; x < mapSizeX; x++)
+        {
+            //spawn grass 
+            var weed = Instantiate(WeedPrefab);
+            weed.transform.position = new Vector2(x - (mapSizeX / 2), 1);
+            weed.transform.SetParent(grassline.transform);
+        }
+
         for (int i = 0; i < 3; i++)
         {
             AddChunk();
