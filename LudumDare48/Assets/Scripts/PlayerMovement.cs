@@ -36,20 +36,17 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetAxis("Horizontal") > 0)
         {
             _drillDir = Vector3.right;
-            _spriteRenderer.flipX = true;
-            transform.rotation = Quaternion.identity;
+            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         }
         else if(Input.GetAxis("Horizontal") < 0)
         {
             _drillDir = Vector3.left;
-            _spriteRenderer.flipX = false;
             transform.rotation = Quaternion.identity;
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
             _drillDir = Vector3.down;
             transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
-            _spriteRenderer.flipX = false;
         }
 
         if(_drillDir != Vector3.zero)
@@ -83,7 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     transform.position = newPos;
-                    transform.rotation = Quaternion.identity;
+                    //transform.rotation = Quaternion.identity;
                     WorldTile.OnStopDigging();
                 }
             }
