@@ -49,12 +49,12 @@ public class PlayerMovement : MonoBehaviour
 
         if(_drillDir != Vector3.zero)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, _drillDir, 0.3f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, _drillDir, 0.6f);
 
             if (hit.collider != null && hit.transform.tag != "Player")
             {
                 float distance = Mathf.Abs(hit.point.y - transform.position.y);
-                if(distance <= 0.2f)
+                if(distance <= 0.45f)
                 {
                     //Drill no move!
                     WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
@@ -62,7 +62,8 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log(distance);
+                    //
+                    Debug.Log(distance);
                     WorldTile.OnStopDigging();
                 }
             }
@@ -91,6 +92,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Debug.DrawLine(transform.position, transform.position + _drillDir * 0.3f);
+        Debug.DrawLine(transform.position, transform.position + _drillDir * 0.6f);
     }
 }
