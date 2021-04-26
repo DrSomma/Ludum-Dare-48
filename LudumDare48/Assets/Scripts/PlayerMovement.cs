@@ -12,16 +12,15 @@ public class PlayerMovement : MonoBehaviour
 
     public float speedDrill = 2;
 
-    private Rigidbody2D _rigidbody2D;
-    private Vector3 _movementForce;
     private Vector3 _drillDir;
+    private SpriteRenderer _spriteRenderer;
 
     public GameObject maker;
 
 
     void Awake()
     {
-        _rigidbody2D = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -37,24 +36,30 @@ public class PlayerMovement : MonoBehaviour
         if(Input.GetAxis("Horizontal") > 0)
         {
             _drillDir = Vector3.right;
+            _spriteRenderer.flipX = true;
+            transform.rotation = Quaternion.identity;
         }
         else if(Input.GetAxis("Horizontal") < 0)
         {
             _drillDir = Vector3.left;
+            _spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.identity;
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
             _drillDir = Vector3.down;
+            transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+            _spriteRenderer.flipX = false;
         }
 
         if(_drillDir != Vector3.zero)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, _drillDir, 0.6f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, _drillDir, 0.4f);
 
             if (hit.collider != null && hit.transform.tag != "Player")
             {
                 float distance = Mathf.Abs(hit.point.y - transform.position.y);
-                if(distance <= 0.45f)
+                if(distance <= 0.1f || (Vector3.down == _drillDir && distance <= 0.25f))
                 {
                     //Drill no move!
                     WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
@@ -62,7 +67,6 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else
                 {
-                    //
                     Debug.Log(distance);
                     WorldTile.OnStopDigging();
                 }
@@ -79,12 +83,15 @@ public class PlayerMovement : MonoBehaviour
                 else
                 {
                     transform.position = newPos;
+                    transform.rotation = Quaternion.identity;
                     WorldTile.OnStopDigging();
                 }
             }
         }
         else
         {
+            transform.rotation = Quaternion.identity;
+            //_spriteRenderer.flipX = false;
             WorldTile.OnStopDigging();
         }
     }
@@ -92,6 +99,6 @@ public class PlayerMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Debug.DrawLine(transform.position, transform.position + _drillDir * 0.6f);
+        Debug.DrawLine(transform.position, transform.position + _drillDir * 0.4f);
     }
 }
