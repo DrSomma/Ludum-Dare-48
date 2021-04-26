@@ -17,6 +17,8 @@
         <e p="ParticleManager.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="amazeIT" t="Include">
+            <e p="ShowTooltip.cs" t="Include" />
+            <e p="Tooltip.cs" t="Include" />
             <e p="Tween" t="Include">
               <e p="de.amazeIT.tween.asmdef" t="Include" />
               <e p="Scripts" t="Include">

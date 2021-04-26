@@ -33,7 +33,8 @@
     <list default="true" id="a9804dcc-72fd-4cdb-aafc-34e8137fca26" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LudumDare48/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LudumDare48/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LudumDare48/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LudumDare48/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/SoundManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/SoundManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/UpgradeManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Manager/UpgradeManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,14 +46,24 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Manager/UpgradeManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7CE3C7D1-3BD9-4687-9132-4A792ACC392A/39/97635da3/IPointerExitHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/7CE3C7D1-3BD9-4687-9132-4A792ACC392A/25/ead19959/IPointerEnterHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/amazeIT/ShowTooltip.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager/GameManager.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Manager/SoundManager.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Manager/UpgradeManager.cs" />
         <option value="$PROJECT_DIR$/Assets/InputManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/InputManager.cs" />
+        <option value="$PROJECT_DIR$/Assets/_/Stuff/CodeMonkey/Utils/UI_Bar.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/amazeIT/TooltipOption.cs" />
+        <option value="$PROJECT_DIR$/Assets/Tooltip/Window.cs" />
+        <option value="$PROJECT_DIR$/Assets/Tooltip/Tooltip.cs" />
+        <option value="$PROJECT_DIR$/Assets/Tooltip.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/amazeIT/ShowTooltip.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Manager/UpgradeManager.cs" />
       </list>
     </option>
   </component>
@@ -97,6 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619252312915</updated>
       <workItem from="1619252329716" duration="8415000" />
+      <workItem from="1619456068601" duration="9374000" />
     </task>
     <servers />
   </component>
@@ -115,8 +127,15 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1521" y="374" key="RiderGenerateDialog" timestamp="1619464359947">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1521" y="374" key="RiderGenerateDialog/-1920.0.1920.1040/0.0.3440.1400@0.0.3440.1400" timestamp="1619464359947" />
   </component>
 </project>
