@@ -1,26 +1,41 @@
+using Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public float Fuel = 1;
+    public float FuelConsumption = 2f;
+    public float FuelConsumptionDrill = 5f;
+
     public float speedX = 2f;
     public float speedY = 5f;
 
-    public float DigDamage = 0.5f;
-    public float DigSpeed = 1f;
-
-    public float speedDrill = 2;
+    public float StartDigDamage = 0.5f;
+    public float StartDigSpeed = 1f;
+    public float DigCooldown = 2f;
+    private float _nextDigPossibleTimeStamp;
 
     private Vector3 _drillDir;
-    private SpriteRenderer _spriteRenderer;
+    private float curDigSpeed;
+    private float curDigDmg;
 
     public GameObject maker;
 
-
-    void Awake()
+    private void Start()
     {
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _nextDigPossibleTimeStamp = float.MinValue;
+        Fuel = UpgradeManager.Instance.TankUpgrade * UpgradeManager.Instance.TankPerLevel;
+        curDigSpeed = StartDigSpeed;
+        OnUpgrade();
+    }
+
+    void OnUpgrade()
+    {
+        //curDigSpeed = Mathf.Max(0.01f, StartDigSpeed - UpgradeManager.Instance.ExtraSpeed);
+        curDigDmg = Mathf.Max(0.01f, StartDigDamage + UpgradeManager.Instance.ExtraSpeed);
     }
 
     void Update()
@@ -29,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private Vector3 lastDir;
+    private float curFuelConsumption;
+
     private void Move() {
 
         Vector3 newPos = transform.position + (Vector3.right * Input.GetAxis("Horizontal") * speedX * Time.deltaTime);
@@ -57,46 +74,79 @@ public class PlayerMovement : MonoBehaviour
             if (hit.collider != null && hit.transform.tag != "Player")
             {
                 float distance = Mathf.Abs(hit.point.y - transform.position.y);
-                if(distance <= 0.1f || (Vector3.down == _drillDir && distance <= 0.25f))
+                if(distance <= 0.1f || (Vector3.down == _drillDir && distance <= 0.3f))
                 {
-                    //Drill no move!
-                    WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
-                    tile.DigMe(DigDamage,DigSpeed);
+                    DoDrilling(hit);
                 }
                 else
                 {
-                    Debug.Log(distance);
+                    //Debug.Log(distance);
                     WorldTile.OnStopDigging();
                 }
             }
             else
             {
-                if(newPos.x < WorldGeneration.Instance.mapMinX)
-                {
-                    transform.position = new Vector3(WorldGeneration.Instance.mapMinX, transform.position.y);
-                }else if(newPos.x > WorldGeneration.Instance.mapMaxX)
-                {
-                    transform.position = new Vector3(WorldGeneration.Instance.mapMaxX, transform.position.y);
-                }
-                else
-                {
-                    transform.position = newPos;
-                    //transform.rotation = Quaternion.identity;
-                    WorldTile.OnStopDigging();
-                }
+                DoMovement(newPos);
             }
         }
         else
         {
-            //transform.rotation = Quaternion.identity;
-            if(lastDir == Vector3.down)
-            {
-                transform.rotation = Quaternion.identity;
-            }
-            WorldTile.OnStopDigging();
+            ResetSprite();
         }
 
+        Fuel -= curFuelConsumption * Time.deltaTime;
+
         lastDir = _drillDir;
+
+        //Check if fule 
+        CheckGameOver();
+    }
+
+    private void ResetSprite()
+    {
+        //transform.rotation = Quaternion.identity;
+        if (lastDir == Vector3.down)
+        {
+            transform.rotation = Quaternion.identity;
+        }
+        WorldTile.OnStopDigging();
+        curFuelConsumption = FuelConsumption;
+    }
+
+    private void DoMovement(Vector3 newPos)
+    {
+        if (newPos.x < WorldGeneration.Instance.mapMinX)
+        {
+            transform.position = new Vector3(WorldGeneration.Instance.mapMinX, transform.position.y);
+        }
+        else if (newPos.x > WorldGeneration.Instance.mapMaxX)
+        {
+            transform.position = new Vector3(WorldGeneration.Instance.mapMaxX, transform.position.y);
+        }
+        else
+        {
+            transform.position = newPos;
+            //transform.rotation = Quaternion.identity;
+            curFuelConsumption = FuelConsumption;
+            WorldTile.OnStopDigging();
+        }
+    }
+
+    private void DoDrilling(RaycastHit2D hit)
+    {
+        //Drill no move!
+        //can dig
+        WorldTile tile = hit.collider.gameObject.GetComponent<WorldTile>();
+        tile.DigMe(UpgradeManager.Instance.DrillSpeedMultiplier);
+        curFuelConsumption = FuelConsumptionDrill;
+    }
+
+    private void CheckGameOver()
+    {
+        if(Fuel <= 0)
+        {
+            Debug.Log("GAME OVERRRRR!!!!");
+        }
     }
 
 

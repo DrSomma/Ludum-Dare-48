@@ -29,4 +29,13 @@ public class GameEvents : MonoBehaviour
             onInventoryUpdate();
         }
     }
+
+    public event Action onUpgrade;
+    public void Upgrade()
+    {
+        if (onUpgrade != null)
+        {
+            onUpgrade();
+        }
+    }
 }

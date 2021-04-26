@@ -22,13 +22,9 @@ public class WorldTile : MonoBehaviour
 
     #region static/config
     [Header("Static Settings")]
-    public float Cooldown = 2f;
-    public float ResetTime = 4f;
     private float curHardness;
     #endregion
 
-    private float _nextDigPossibleTimeStamp;
-    private float _resetTimeStamp;
     private Color _imgColor;
     private Sprite _imgSprite; 
 
@@ -37,8 +33,7 @@ public class WorldTile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        curHardness = Hardness;
-        _nextDigPossibleTimeStamp = float.MinValue;
+        curHardness = GetBaseHarndess();
 
         var render = transform.GetChild(0).GetComponent<SpriteRenderer>();
         _imgColor = render.color;
@@ -52,32 +47,28 @@ public class WorldTile : MonoBehaviour
             .AddEffect(new ShakeEffect(_imgTrans, maxRotation, rotSpeed));
     }
 
-    public void DigMe(float digDamage, float digSpeed)
+    private float GetBaseHarndess()
     {
-        float curTime = Time.time;
-        if(_curDiggingTile == null || _curDiggingTile != this)
-        {
-            StartDigging();
-        }
-
-        if (curTime >= _nextDigPossibleTimeStamp)
-        {
-            //can dig
-            curHardness -= digDamage;
-            if (curHardness <= 0)
-            {
-                DestroyTile();
-            }
-            _nextDigPossibleTimeStamp = curTime + (Cooldown - digSpeed);
-            _resetTimeStamp = curTime + ResetTime;
-        }
-        else
-        {
-            //On Cooldown
-        }
+        return Hardness * 1.5f;
     }
 
-    private void StartDigging()
+    public void DigMe(float digMulti)
+    {
+        if(_curDiggingTile == null || _curDiggingTile != this)
+        {
+            StartDigging(digMulti);
+        }
+        //2/3=0.6
+        var damage = (digMulti / GetBaseHarndess()) * Time.deltaTime;
+        curHardness -= damage;
+        if (curHardness <= 0)
+        {
+            DestroyTile();
+        }
+        //Debug.Log($"curHardness: {curHardness} dmg: {digDamage * Time.deltaTime} delt: {curHardness- digDamage * Time.deltaTime}");
+    }
+
+    private void StartDigging(float digMulti)
     {
         //reset last
         if(_curDiggingTile != null)
@@ -93,6 +84,14 @@ public class WorldTile : MonoBehaviour
         //Particle
         ParticleManager.Instance.SpawnDiggingParticels(transform.position, _imgColor, _imgSprite);
 
+        //Calc sec
+        //2/3=0.6
+        //curHardness -= damage;
+        //if (curHardness <= 0)
+        //{
+        //    DestroyTile();
+        //}
+
     }
 
     public static void OnStopDigging()
@@ -106,19 +105,9 @@ public class WorldTile : MonoBehaviour
     private void StopDigging()
     {
         _curDiggingTile = null;
-        curHardness = Hardness;
+        curHardness = GetBaseHarndess();
         _effect.StopAllEffects();
-        ParticleManager.Instance.StopDiggingParticels();
-
-       
-    }
-
-    private void Update()
-    {
-        if (Time.deltaTime >= _resetTimeStamp)
-        {
-            curHardness = Hardness;
-        }
+        ParticleManager.Instance.StopDiggingParticels();       
     }
 
     public void DestroyTile()

@@ -4,20 +4,38 @@ namespace Manager
 {
     public class UpgradeManager : MonoBehaviour
     {
+        public static UpgradeManager Instance;
+
         [Header("Upgrades")]
-        [SerializeField] private int TankUpgrade;
-        [SerializeField] private int SpeedUpgrade;
-        [SerializeField] private int SightUpgrade;
+        public int TankUpgrade;
+        public float TankPerLevel = 20f; 
+        public int SpeedUpgrade;
+        public float SpeedPerLevel = 2f;
+        public float DrillSpeedPerLevl = 0.5f;
+        public float StartSpeed = 1.5f;
+        public int SightUpgrade;
+        [Range(0, 1)]
+        public float StartSight = 1;
+        public float SightPerLevel = 0.3f;
 
         [SerializeField] public GameObject[] TankUpgradeBlocker;
         [SerializeField] public GameObject[] SpeedUpgradeBlocker;
         [SerializeField] public GameObject[] SightUpgradeBlocker;
 
+        public float Sight => StartSight - (SightPerLevel * (SightUpgrade-1));
+        public float DrillSpeedMultiplier => StartSpeed + (SpeedPerLevel*SpeedUpgrade);
+        public float MaxTank => TankPerLevel + (TankPerLevel * TankUpgrade);
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         private void Start()
         {
-            TankUpgrade = 0;
-            SpeedUpgrade = 0;
-            SightUpgrade = 0;
+            //TankUpgrade = 0;
+            //SpeedUpgrade = 0;
+            //SightUpgrade = 0;
         }
 
         public void UpgradeTank(int level)
@@ -32,6 +50,8 @@ namespace Manager
                 // Geld abziehen und upgraden
                 TankUpgradeBlocker[TankUpgrade].  SetActive(false);
                 TankUpgrade++;
+
+                GameEvents.Instance.Upgrade();
             }
         }
 
@@ -48,6 +68,8 @@ namespace Manager
 
                 SpeedUpgradeBlocker[SpeedUpgrade].SetActive(false);
                 SpeedUpgrade++;
+
+                GameEvents.Instance.Upgrade();
             }
         }
 
@@ -64,6 +86,8 @@ namespace Manager
 
                 SightUpgradeBlocker[SightUpgrade].SetActive(false);
                 SightUpgrade++;
+
+                GameEvents.Instance.Upgrade();
             }
         }
     }
