@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Manager
 {
@@ -30,7 +31,8 @@ namespace Manager
             {
                 // Geld überprüfen
                 // Geld abziehen und upgraden
-                TankUpgradeBlocker[TankUpgrade].  SetActive(false);
+                TankUpgradeBlocker[TankUpgrade].GetComponent<Button>().enabled = false;
+                TankUpgradeBlocker[TankUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
                 TankUpgrade++;
             }
         }
@@ -46,7 +48,8 @@ namespace Manager
                 // Geld überprüfen
                 // Geld abziehen und upgraden
 
-                SpeedUpgradeBlocker[SpeedUpgrade].SetActive(false);
+                SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Button>().enabled = false;
+                SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
                 SpeedUpgrade++;
             }
         }
@@ -62,7 +65,8 @@ namespace Manager
                 // Geld überprüfen
                 // Geld abziehen und upgraden
 
-                SightUpgradeBlocker[SightUpgrade].SetActive(false);
+                SightUpgradeBlocker[SightUpgrade].GetComponent<Button>().enabled = false;
+                SightUpgradeBlocker[SightUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
                 SightUpgrade++;
             }
         }
