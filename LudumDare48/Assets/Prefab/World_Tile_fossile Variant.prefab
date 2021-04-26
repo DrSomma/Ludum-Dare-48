@@ -23,6 +23,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6773021025554903926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7273915712241609926, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
       propertyPath: m_Name
       value: World_Tile_fossile Variant
