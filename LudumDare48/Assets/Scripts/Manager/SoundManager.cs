@@ -9,18 +9,12 @@ namespace Manager
         public static SoundManager Instance;
 
         public GameObject soundNodePrefab;
-        public List<AudioClip> birds;
-        public AudioClip coins;
-        public AudioClip placeRail;
-        public AudioClip placeStation;
-        public AudioClip remove;
         public AudioClip uiClick;
 
 
         [Header("For Background Music")]
-        public bool muteMusic;
-        public bool muteSounds;
-        public bool muteAmbientSound;
+        [SerializeField] private bool mute;
+        [SerializeField] private float soundVolume;
         public AudioSource musicSource;
         public AudioClip ambientSound;
         public AudioClip musicStart;
@@ -76,7 +70,7 @@ namespace Manager
 
         public void Update()
         {
-            if (muteMusic)
+            if (mute)
             {
                 musicSource.mute = true;
             }
@@ -87,7 +81,7 @@ namespace Manager
 
             if (_ambientSoundAudioSource != null)
             {
-                _ambientSoundAudioSource.mute = muteAmbientSound;
+                _ambientSoundAudioSource.mute = mute;
             }
         }
 
@@ -100,32 +94,6 @@ namespace Manager
         //     // }
         // }
 
-        private void PlayRandomBirdSound()
-        {
-            int index = Mathf.FloorToInt(f: Random.value * birds.Count);
-            PlaySound(audioClip: birds[index: index]);
-        }
-
-        public void PlaySoundCoins()
-        {
-            PlaySound(audioClip: coins);
-        }
-
-        public void PlaySoundPlaceRail()
-        {
-            PlaySound(audioClip: placeRail);
-        }
-
-        public void PlaySoundPlaceStation()
-        {
-            PlaySound(audioClip: placeStation);
-        }
-
-        public void PlaySoundRemove()
-        {
-            PlaySound(audioClip: remove);
-        }
-
         public void PlaySoundUiClick()
         {
             PlaySound(audioClip: uiClick);
@@ -133,7 +101,7 @@ namespace Manager
 
         private void PlaySound(AudioClip audioClip)
         {
-            if (muteSounds)
+            if (mute)
             {
                 return;
             }
@@ -144,20 +112,27 @@ namespace Manager
 
             AudioSource audioSource = soundNode.GetComponent<AudioSource>();
 
+            audioSource.volume = soundVolume;
+
             audioSource.clip = audioClip;
             audioSource.Play();
 
             Destroy(obj: soundNode, t: audioClipLength);
         }
 
-        public void MuteMusic(bool vBool)
+        public void SwitchMute()
         {
-            muteMusic = vBool;
+            mute = !mute;
         }
 
-        public void MuteSounds(bool vBool)
+        public void SetMusicVolume(float volume)
         {
-            muteSounds = vBool;
+            this.musicSource.volume = volume;
+        }
+
+        public void SetSoundVolume(float volume)
+        {
+            this.soundVolume = volume;
         }
     }
 }
