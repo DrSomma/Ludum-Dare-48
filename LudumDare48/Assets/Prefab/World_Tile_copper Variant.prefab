@@ -104,6 +104,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8065544700934028260, guid: 4eaba2b2f09e74a45a9f8667215f79b4, type: 3}
+      propertyPath: Treasure
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8065544700934028260, guid: 4eaba2b2f09e74a45a9f8667215f79b4, type: 3}
       propertyPath: waitTime
       value: 1
       objectReference: {fileID: 0}

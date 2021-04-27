@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e49e1d0c9fa86d64981d8ebabdc640a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hardness: 1
+  Hardness: 0.9
   Treasure: 1
   maxScaleSize: {x: 0, y: 0, z: 0}
   scaleSpeed: 2

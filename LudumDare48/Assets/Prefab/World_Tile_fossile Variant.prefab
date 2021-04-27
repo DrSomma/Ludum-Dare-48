@@ -91,6 +91,10 @@ PrefabInstance:
       propertyPath: Hardness
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7833323012848741095, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
+      propertyPath: Treasure
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7865589002646289211, guid: 54e0fe7e53cdfc64aaf3bed858f28c8b, type: 3}
       propertyPath: m_Sprite
       value: 
