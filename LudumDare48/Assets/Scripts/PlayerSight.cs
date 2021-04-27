@@ -20,17 +20,22 @@ public class PlayerSight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(transform.position.y > -3)
+        {
+            UpdateSight();
+        }
     }
 
     void UpdateSight()
     {
+        var p = Mathf.Clamp01(Mathf.InverseLerp(0, 3, -transform.position.y) + 0.3f);
+
         if (m_PostProcessVolume != null)
         {
             Vignette vignette;
             if (m_PostProcessVolume.profile.TryGetSettings(out vignette))
             {
-                vignette.intensity.value = UpgradeManager.Instance.Sight;
+                vignette.intensity.value = UpgradeManager.Instance.Sight*p;
             }
         }
     }
