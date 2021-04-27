@@ -113,7 +113,7 @@ public class WorldTile : MonoBehaviour
     public void DestroyTile()
     {
         //get items
-        GameEvents.Instance.TileIsMined(Treasure);
+        GameEvents.Instance.TileIsMined(Treasure, transform.position);
 
         ParticleManager.Instance.StopDiggingParticels();
 

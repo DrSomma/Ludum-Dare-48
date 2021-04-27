@@ -12,12 +12,12 @@ public class GameEvents : MonoBehaviour
         Instance = this;
     }
 
-    public event Action<int> onTileIsMined; //int = money / item id ... can be changed
-    public void TileIsMined(int i) //money, item id, or ...
+    public event Action<int,Vector3> onTileIsMined; //int = money / item id ... can be changed
+    public void TileIsMined(int i,Vector3 pos) //money, item id, or ...
     {
         if(onTileIsMined != null)
         {
-            onTileIsMined(i);
+            onTileIsMined(i,pos);
         }
     }
 
