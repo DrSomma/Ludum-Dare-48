@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameUi : MonoBehaviour
 {
     public GameObject MoneyTextPrefab;
-    private const string Format = "Money: {0:000}$";
     public Text LblMoney;
     public Inventory Inventory;
     private GameObject canvas;
@@ -20,7 +19,7 @@ public class GameUi : MonoBehaviour
 
     public void UpdateUi()
     {
-        LblMoney.text = string.Format(Format, Inventory.money);
+        LblMoney.text = $"Money {Inventory.money}$";
     }
 
     public void ChangeMoney(int sumToAdd, Vector3 pos)

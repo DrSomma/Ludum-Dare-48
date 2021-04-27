@@ -10,6 +10,8 @@ namespace Manager
 
         public GameObject soundNodePrefab;
         public AudioClip uiClick;
+        public AudioClip drillSound;
+        public AudioClip breakSound;
 
 
         [Header("For Background Music")]
@@ -99,11 +101,34 @@ namespace Manager
             PlaySound(audioClip: uiClick);
         }
 
-        private void PlaySound(AudioClip audioClip)
+        GameObject drillNode;
+        public void PlayDrillSound()
+        {
+            drillNode = PlaySound(audioClip: drillSound,0.5f);
+            Debug.Log("Play drill");
+            
+        }
+
+        public void StopDrillSound()
+        {
+            if(drillNode != null)
+            {
+                Destroy(drillNode);
+                Debug.Log("Stop drill");
+            }
+        }
+
+        public void PlayBreakSound()
+        {
+            PlaySound(audioClip: breakSound);
+            Debug.Log("Play break");
+        }
+
+        private GameObject PlaySound(AudioClip audioClip, float p=1f, bool doLoop=false)
         {
             if (mute)
             {
-                return;
+                return null;
             }
 
             float audioClipLength = audioClip.length;
@@ -112,12 +137,14 @@ namespace Manager
 
             AudioSource audioSource = soundNode.GetComponent<AudioSource>();
 
-            audioSource.volume = soundVolume;
+            audioSource.volume = soundVolume * p;
+            audioSource.loop = doLoop;
 
             audioSource.clip = audioClip;
             audioSource.Play();
 
             Destroy(obj: soundNode, t: audioClipLength);
+            return soundNode;
         }
 
         public void SwitchMute()

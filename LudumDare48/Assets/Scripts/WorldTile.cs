@@ -1,3 +1,4 @@
+using Manager;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,7 +57,7 @@ public class WorldTile : MonoBehaviour
     {
         if(_curDiggingTile == null || _curDiggingTile != this)
         {
-            StartDigging(digMulti);
+            StartDigging();
         }
      
         var damage = (digMulti / GetBaseHarndess()) * Time.deltaTime;
@@ -67,7 +68,7 @@ public class WorldTile : MonoBehaviour
         }
     }
 
-    private void StartDigging(float digMulti)
+    private void StartDigging()
     {
         //reset last
         if(_curDiggingTile != null)
@@ -82,6 +83,8 @@ public class WorldTile : MonoBehaviour
 
         //Particle
         ParticleManager.Instance.SpawnDiggingParticels(transform.position, _imgColor, _imgSprite);
+
+        SoundManager.Instance.PlayDrillSound();
     }
 
     public static void OnStopDigging()
@@ -89,6 +92,7 @@ public class WorldTile : MonoBehaviour
         if (_curDiggingTile != null)
         {
             _curDiggingTile.StopDigging();
+            SoundManager.Instance.StopDrillSound();
         }
     }
 
@@ -106,6 +110,9 @@ public class WorldTile : MonoBehaviour
         GameEvents.Instance.TileIsMined(Treasure, transform.position);
 
         ParticleManager.Instance.StopDiggingParticels();
+
+        SoundManager.Instance.StopDrillSound();
+        SoundManager.Instance.PlayBreakSound();
 
         //TODO: Coole Effekte!
         Destroy(this.gameObject);
