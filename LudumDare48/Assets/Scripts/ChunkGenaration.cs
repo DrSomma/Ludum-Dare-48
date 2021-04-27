@@ -95,7 +95,7 @@ public class ChunkGenaration : MonoBehaviour
                 float scale = 0;
                 if (depth >= tiles[i].minDepth && depth <= tiles[i].bestDepthS)   //between min <-> best
                 {
-                    scale = Mathf.InverseLerp(tiles[i].minDepth, tiles[i].bestDepthS, depth); 
+                    scale = Mathf.InverseLerp(tiles[i].minDepth-1, tiles[i].bestDepthS, depth); 
                 }else if (depth >= tiles[i].bestDepthE && depth <= tiles[i].maxDepth) //between best <-> max
                 {
                     scale = Mathf.InverseLerp(tiles[i].maxDepth, tiles[i].bestDepthE, depth);
