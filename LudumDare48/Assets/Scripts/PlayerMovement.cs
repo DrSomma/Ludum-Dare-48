@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float speedX = 2f;
     public float speedY = 5f;
+    public bool CanMove = true;
 
     private Vector3 _drillDir;
 
@@ -24,7 +25,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        Move();
+        if(CanMove)
+            Move();
     }
 
     private Vector3 lastDir;
