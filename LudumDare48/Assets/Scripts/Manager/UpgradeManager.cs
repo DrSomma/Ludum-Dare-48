@@ -73,7 +73,7 @@ namespace Manager
             else
             {
                 // Geld überprüfen
-                var price = SpeedPrice * (TankUpgrade+1);
+                var price = SpeedPrice * (SpeedUpgrade+1);
                 if (_playerInventory.money >= price)
                 {
                     _playerInventory.RemoveMoney(price);
@@ -97,9 +97,10 @@ namespace Manager
             {
                 // Geld überprüfen
                 // Geld abziehen und upgraden
-                var price = SightPrice * (TankUpgrade+1);
+                var price = SightPrice * (SightUpgrade+1);
                 if (_playerInventory.money >= price)
                 {
+                    _playerInventory.RemoveMoney(price);
                     SightUpgradeBlocker[SightUpgrade].GetComponent<Button>().enabled = false;
                     SightUpgradeBlocker[SightUpgrade].GetComponent<Image>().color = new Color(0, 0, 0, 0);
                     SightUpgrade++;
