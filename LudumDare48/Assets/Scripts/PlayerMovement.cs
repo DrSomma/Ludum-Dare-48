@@ -20,6 +20,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        Refuel();
+    }
+
+    public void Refuel()
+    {
         Fuel = UpgradeManager.Instance.MaxFuel;
     }
 
@@ -132,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
         if(Fuel <= 0)
         {
             //Reset Player 
-            Fuel = UpgradeManager.Instance.MaxFuel;
+            Refuel();
             transform.position = new Vector2(0, 2.5f);
             WorldGeneration.Instance.GenerateRndMap();
         }

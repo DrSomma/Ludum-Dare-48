@@ -37,15 +37,16 @@ public class FuleBar : MonoBehaviour
 
     private void OnUpgrade()
     {
-        AddBar();
+        if((UpgradeManager.Instance.TankUpgrade + 1) > _bars.Count)
+            AddBar();
     }
 
     private void AddBar()
     {
-        Debug.Log("AddBAr");
         var newBar = Instantiate(FuleBarPrefab);
         newBar.transform.SetParent(this.transform);
         _bars.Add(newBar.GetComponentsInChildren<Image>().Last());
+        player.Refuel();
     }
 
     void UpdateUi()

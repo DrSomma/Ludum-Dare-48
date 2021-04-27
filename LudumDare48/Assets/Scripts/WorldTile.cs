@@ -58,14 +58,13 @@ public class WorldTile : MonoBehaviour
         {
             StartDigging(digMulti);
         }
-        //2/3=0.6
+     
         var damage = (digMulti / GetBaseHarndess()) * Time.deltaTime;
         curHardness -= damage;
         if (curHardness <= 0)
         {
             DestroyTile();
         }
-        //Debug.Log($"curHardness: {curHardness} dmg: {digDamage * Time.deltaTime} delt: {curHardness- digDamage * Time.deltaTime}");
     }
 
     private void StartDigging(float digMulti)
@@ -83,15 +82,6 @@ public class WorldTile : MonoBehaviour
 
         //Particle
         ParticleManager.Instance.SpawnDiggingParticels(transform.position, _imgColor, _imgSprite);
-
-        //Calc sec
-        //2/3=0.6
-        //curHardness -= damage;
-        //if (curHardness <= 0)
-        //{
-        //    DestroyTile();
-        //}
-
     }
 
     public static void OnStopDigging()

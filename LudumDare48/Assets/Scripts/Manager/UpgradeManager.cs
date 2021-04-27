@@ -12,6 +12,11 @@ namespace Manager
         public int SpeedUpgrade;
         public int SightUpgrade;
 
+        [Header("Price")]
+        public int SpeedPrice = 150;
+        public int TankPrice = 250;
+        private int SightPrice = 100;
+
         [Header("Settings")]
         public float TankPerLevel = 20f; 
         public float SpeedPerLevel = 2f;
@@ -28,16 +33,12 @@ namespace Manager
         public float DrillSpeedMultiplier => StartSpeed + (SpeedPerLevel*SpeedUpgrade);
         public float MaxFuel => TankPerLevel + (TankPerLevel * TankUpgrade);
 
+
+        public Inventory _playerInventory;
+
         private void Awake()
         {
             Instance = this;
-        }
-
-        private void Start()
-        {
-            //TankUpgrade = 0;
-            //SpeedUpgrade = 0;
-            //SightUpgrade = 0;
         }
 
         public void UpgradeTank(int level)
@@ -49,12 +50,17 @@ namespace Manager
             else
             {
                 // Geld überprüfen
-                // Geld abziehen und upgraden
-                TankUpgradeBlocker[TankUpgrade].GetComponent<Button>().enabled = false;
-                TankUpgradeBlocker[TankUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
-                TankUpgrade++;
+                var price = TankPrice * (TankUpgrade+1);
+                if (_playerInventory.money >= price)
+                {
+                    _playerInventory.RemoveMoney(price);
+                    // Geld abziehen und upgraden
+                    TankUpgradeBlocker[TankUpgrade].GetComponent<Button>().enabled = false;
+                    TankUpgradeBlocker[TankUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
+                    TankUpgrade++;
 
-                GameEvents.Instance.Upgrade();
+                    GameEvents.Instance.Upgrade();
+                }
             }
         }
 
@@ -67,13 +73,17 @@ namespace Manager
             else
             {
                 // Geld überprüfen
-                // Geld abziehen und upgraden
+                var price = SpeedPrice * (TankUpgrade+1);
+                if (_playerInventory.money >= price)
+                {
+                    _playerInventory.RemoveMoney(price);
+                    // Geld abziehen und upgraden
+                    SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Button>().enabled = false;
+                    SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Image>().color = new Color(0, 0, 0, 0);
+                    SpeedUpgrade++;
 
-                SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Button>().enabled = false;
-                SpeedUpgradeBlocker[SpeedUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
-                SpeedUpgrade++;
-
-                GameEvents.Instance.Upgrade();
+                    GameEvents.Instance.Upgrade();
+                }
             }
         }
 
@@ -87,12 +97,15 @@ namespace Manager
             {
                 // Geld überprüfen
                 // Geld abziehen und upgraden
+                var price = SightPrice * (TankUpgrade+1);
+                if (_playerInventory.money >= price)
+                {
+                    SightUpgradeBlocker[SightUpgrade].GetComponent<Button>().enabled = false;
+                    SightUpgradeBlocker[SightUpgrade].GetComponent<Image>().color = new Color(0, 0, 0, 0);
+                    SightUpgrade++;
 
-                SightUpgradeBlocker[SightUpgrade].GetComponent<Button>().enabled = false;
-                SightUpgradeBlocker[SightUpgrade].GetComponent<Image>().color = new Color(0,0,0,0);
-                SightUpgrade++;
-
-                GameEvents.Instance.Upgrade();
+                    GameEvents.Instance.Upgrade();
+                }
             }
         }
     }
