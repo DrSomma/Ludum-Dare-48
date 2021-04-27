@@ -15,7 +15,7 @@ namespace Manager
         [Header("Price")]
         public int SpeedPrice = 150;
         public int TankPrice = 250;
-        private int SightPrice = 100;
+        public int SightPrice = 100;
 
         [Header("Settings")]
         public float TankPerLevel = 20f; 

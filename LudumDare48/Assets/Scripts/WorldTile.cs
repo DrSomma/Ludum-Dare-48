@@ -50,7 +50,7 @@ public class WorldTile : MonoBehaviour
 
     private float GetBaseHarndess()
     {
-        return Hardness * 1.5f;
+        return Hardness /** 1.5f*/;
     }
 
     public void DigMe(float digMulti)
