@@ -139,11 +139,12 @@ namespace Manager
 
             audioSource.volume = soundVolume * p;
             audioSource.loop = doLoop;
+            if(!doLoop)
+                Destroy(obj: soundNode, t: audioClipLength);
 
             audioSource.clip = audioClip;
             audioSource.Play();
 
-            Destroy(obj: soundNode, t: audioClipLength);
             return soundNode;
         }
 
