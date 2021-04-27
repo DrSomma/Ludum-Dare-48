@@ -131,7 +131,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if(Fuel <= 0)
         {
-            Debug.Log("GAME OVERRRRR!!!!");
+            //Reset Player 
+            Fuel = UpgradeManager.Instance.MaxFuel;
+            transform.position = new Vector2(0, 2.5f);
+            WorldGeneration.Instance.GenerateRndMap();
         }
     }
     

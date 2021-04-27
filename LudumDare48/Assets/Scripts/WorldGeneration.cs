@@ -74,6 +74,14 @@ public class WorldGeneration : MonoBehaviour
         }
     }
 
+    public void GenerateRndMap()
+    {
+        ClearMap();
+        System.Random prng = new System.Random(seed);
+        seed = prng.Next(0, 10000);
+        GenerateMap();
+    }
+
     public void GenerateMap()
     {
         _lastMapY = 0;
