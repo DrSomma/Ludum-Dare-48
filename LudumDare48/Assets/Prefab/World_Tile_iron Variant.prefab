@@ -67,6 +67,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.6698113
       objectReference: {fileID: 0}
+    - target: {fileID: 2134732156975660295, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
+      propertyPath: Hardness
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3236681779279389846, guid: cffd06b5ee0d0944d8fd85002133735a, type: 3}
       propertyPath: m_Sprite
       value: 

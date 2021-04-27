@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
         GameEvents.Instance.onTileIsMined += this.OnTileIsMined;
     }
 
-    public void OnTileIsMined(int treasure) //money, item id or ...
+    public void OnTileIsMined(int treasure, Vector3 pos) //money, item id or ...
     {
         //get the itmes 
         money += treasure;

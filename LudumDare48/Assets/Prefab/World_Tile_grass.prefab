@@ -52,8 +52,6 @@ MonoBehaviour:
   rotSpeed: 4
   maxRotation: 20
   waitTime: 1
-  Cooldown: 2
-  ResetTime: 4
 --- !u!61 &6498968301147458938
 BoxCollider2D:
   m_ObjectHideFlags: 0
